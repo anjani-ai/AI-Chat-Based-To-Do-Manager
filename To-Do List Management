@@ -1,0 +1,35 @@
+import json
+
+class ToDoManager:
+    def __init__(self, data_file="data/tasks.json"):
+        self.data_file = data_file
+        self.tasks = self.load_tasks()
+
+    def load_tasks(self):
+        try:
+            with open(self.data_file, "r") as file:
+                return json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
+
+    def save_tasks(self):
+        with open(self.data_file, "w") as file:
+            json.dump(self.tasks, file)
+
+    def add_task(self, task):
+        self.tasks.append(task)
+        self.save_tasks()
+
+    def remove_task(self, task):
+        if task in self.tasks:
+            self.tasks.remove(task)
+            self.save_tasks()
+            return True
+        return False
+
+    def get_tasks(self):
+        return self.tasks
+
+    def clear_tasks(self):
+        self.tasks = []
+        self.save_tasks()
