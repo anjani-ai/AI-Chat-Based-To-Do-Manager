@@ -1,0 +1,15 @@
+from chatbot import Chatbot
+from todo_manager import ToDoManager
+
+if __name__ == "__main__":
+    print("Welcome to AI To-Do Manager! Type 'exit' to quit.")
+    todo_manager = ToDoManager()
+    chatbot = Chatbot(todo_manager)
+
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == "exit":
+            print("Goodbye!")
+            break
+        response = chatbot.respond(user_input)
+        print(f"AI: {response}")
