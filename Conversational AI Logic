@@ -1,0 +1,35 @@
+import random
+
+class Chatbot:
+    def __init__(self, todo_manager):
+        self.todo_manager = todo_manager
+
+    def respond(self, user_input):
+        if "add" in user_input.lower():
+            task = user_input.replace("add", "").strip()
+            self.todo_manager.add_task(task)
+            return f"I've added '{task}' to your to-do list."
+        
+        elif "remove" in user_input.lower():
+            task = user_input.replace("remove", "").strip()
+            if self.todo_manager.remove_task(task):
+                return f"Removed '{task}' from your to-do list."
+            else:
+                return f"Could not find '{task}' in your to-do list."
+        
+        elif "list" in user_input.lower() or "show" in user_input.lower():
+            tasks = self.todo_manager.get_tasks()
+            if tasks:
+                return "Here are your tasks:\n" + "\n".join(f"- {task}" for task in tasks)
+            return "Your to-do list is empty!"
+        
+        elif "clear" in user_input.lower():
+            self.todo_manager.clear_tasks()
+            return "I've cleared your to-do list."
+        
+        else:
+            return random.choice([
+                "I didn't quite catch that. Can you rephrase?",
+                "Could you clarify what you'd like to do?",
+                "I'm here to manage your tasks. Try 'add', 'remove', or 'list'."
+            ])
